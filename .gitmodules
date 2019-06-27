@@ -1,0 +1,12 @@
+[submodule "AEUtils"]
+	path = AEUtils
+	url = https://github.com/tkurita/AEUtils
+[submodule "TXRegularExpression"]
+	path = TXRegularExpression
+	url = https://github.com/tkurita/TXRegularExpression
+[submodule "AppleEventExtra"]
+	path = AppleEventExtra
+	url = https://github.com/tkurita/AppleEventExtra
+[submodule "TXFile"]
+	path = TXFile
+	url = https://github.com/tkurita/TXFile

@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>ModuleLoader.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>2CB1A9DC22B3B74D000063DF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2CB5C7C522BD23180050D357</key>
 		<dict>
 			<key>primary</key>
 			<true/>

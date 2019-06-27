@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ModuleFinder.xcodeproj">
+      location = "self:/Users/tkurita/Dev/Projects/ModuleLoader4/ModuleLoader4/ModuleLoader4.xcodeproj">
    </FileRef>
 </Workspace>

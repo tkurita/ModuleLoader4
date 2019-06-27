@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="ModuleFinder Terminology">
+	<suite name="ModuleLoader Suite" code="Molo" description="treat script modules">
+		<value-type hidden="yes" name="script" code="scpt"/>
+		<record-type name="module specifier" code="MoSp" description="A specifier of a module will be loaded.">
+			<cocoa name="ModuleSpecifier"/>
+			<property name="name" code="pnam" description="Module name" type="text">
+				<cocoa key="name"/>
+			</property>
+			<property name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean">
+				<cocoa key="reloading"/>
+			</property>
+			<property name="version" code="vers" description="Required version." type="text">
+				<cocoa key="version"/>
+			</property>
+			<property name="from use" code="fmUs" description="Obtained from use statement." type="boolean">
+				<cocoa key="fromUse"/>
+			</property>
+		</record-type>
+		<record-type name="dependency info" code="DpIf" description="Module dependency information">
+			<property name="name" code="pnam" description="A property name which a module is loaded." type="text"/>
+			<property name="module specifier" code="MoSp" description="A module specifier" type="module specifier"/>
+		</record-type>
+		<record-type name="local loader options" code="OPll">
+			<property name="collecting modules" code="cLMd" type="boolean"/>
+			<property name="only local" code="oNLo" type="boolean"/>
+		</record-type>
+		<command name="find module" code="MolofdMo" description="Find module from module paths. If specified module can not be forund, the error number 1800 will raise.">
+			<cocoa class="FindModuleCommand"/>
+			<direct-parameter description="A module name" type="text"/>
+			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
+				<cocoa key="additionalPaths"/>
+				<type type="file" list="yes"/>
+			</parameter>
+			<parameter name="version" code="vers" description="Required version." type="text" optional="yes">
+				<cocoa key="version"/>
+			</parameter>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to paths given in &apos;additional paths&apos;." type="boolean" optional="yes">
+				<cocoa key="otherPaths"/>
+			</parameter>
+			<result description="A reference to a module." type="file"/>
+		</command>
+		<command name="load module" code="MololoMo" description="Load a module from module paths. If specified module can not be forund, the error number 1800 will raise. ">
+			<cocoa class="LoadModuleCommand"/>
+			<direct-parameter description="A module name or a module specifier" type="any"/>
+			<parameter name="additional paths" code="inDr" description="Additional locations to search modules." optional="yes">
+				<cocoa key="additionalPaths"/>
+				<type type="file" list="yes"/>
+			</parameter>
+			<parameter name="version" code="vers" description="Required version." type="text" optional="yes">
+				<cocoa key="vesion"/>
+			</parameter>
+			<parameter name="other paths" code="ohPh" description="If tue is passed,  module search paths are restricted to  paths given in &apos;additional paths&apos;." type="boolean" optional="yes">
+				<cocoa key="otherPaths"/>
+			</parameter>
+			<result description="A recod of a loaded module." type="any"/>
+		</command>
+		<command name="module paths" code="MologtPH" description="List module paths. The default paths are ~/Library/Scritps/Modules and /Library/Scripts/Modules. Only existing folders are listed. Additional paths given by &quot;set additional paths to&quot; will be included in the result.">
+			<cocoa class="ModulePathsCommand"/>
+			<result description="List of POSIX paths of folders.">
+				<type type="text" list="yes"/>
+			</result>
+		</command>
+		<command name="set additional module paths to" code="MoloadMp" description="Prepend module search paths.">
+			<cocoa class="SetAdditionalModulePathsToCommand"/>
+			<direct-parameter description="Folders including script modules or missing value to remove additional module paths" type="any"/>
+			<result description="If success return true" type="boolean"/>
+		</command>
+		<command name="module" code="MoloMkMs" description="Make a module specifier record. Must be placed in a user defined propery statement or in an argument of load handler of a loader object. If a module name is ommited, property name is used as a module name.">
+			<cocoa class="ModuleSpecCommand"/>
+			<direct-parameter description="A module name." type="text" optional="yes"/>
+			<parameter name="version" code="vers" description="Required version." type="text" optional="yes">
+				<cocoa key="version"/>
+			</parameter>
+			<parameter name="reloading" code="pRLo" description="Whether or not to load a module ignoring module chache." type="boolean" optional="yes">
+				<cocoa key="reloading"/>
+			</parameter>
+			<result description="A module specifer record" type="any"/>
+		</command>
+		<command name="extract dependencies" code="MoloExDP" description="Extarct module specifier records from a module script.">
+			<cocoa class="ExtractDepedenciesCommand"/>
+			<direct-parameter type="any" optional="yes"/>
+			<parameter name="for" code="frso" description="script object" type="any">
+				<cocoa key="for"/>
+			</parameter>
+			<result description="list of dependency info" type="any"/>
+		</command>
+		<command name="meet the version" code="MoloMeVe" description="check wheter the version numver meet the condition.">
+			<cocoa class="MeetTheVersionCommand"/>
+			<direct-parameter description="A version number." type="text"/>
+			<parameter name="condition" code="ConD" description="A required version condition." type="text">
+				<cocoa key="condition"/>
+			</parameter>
+			<result description="True if the version meet the condition." type="boolean"/>
+		</command>
+		<event name="module loaded" code="MolowlLd" description="Called when a module is loaded by a loader object. It&apos;s a place to customize modules.">
+			<direct-parameter type="script"/>
+			<parameter name="by" code="whLD" description="A loader object" type="script" optional="yes"/>
+		</event>
+	</suite>
+</dictionary>
