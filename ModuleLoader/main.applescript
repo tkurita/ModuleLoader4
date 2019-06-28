@@ -120,7 +120,7 @@ on current_location()
     return a_folder
 end current_location
 
-on load_module(mspec)
+on load_module(mspec) -- private
     --log "start load_module"
     --log mspec
     set force_reload to false

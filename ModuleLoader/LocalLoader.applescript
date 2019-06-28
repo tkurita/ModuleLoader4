@@ -13,10 +13,6 @@ on load(a_name)
 	end tell
 end load
 
-on load module a_name
-	return load(a_name)
-end load module
-
 on set_localonly(flag)
 	set my _only_local to flag
 	return me
