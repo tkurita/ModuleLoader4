@@ -34,18 +34,21 @@ on setup_script(a_moduleinfo)
         --log "before module_loaded_by : " & (name of a_script)
         set a_script to a_script's module_loaded_by(me)
         a_moduleinfo's set_module_script(a_script)
-    end try
-    
-    try -- to keep compatibility with ModuleLoader.osax
-        --log "before module loaded : " & (name of a_script)
-        set a_script to module loaded a_script by me
-        a_moduleinfo's set_module_script(a_script)
     on error msg number errno
-        -- 1800 : the module is not found
-        -- -1708 : handelr "module_loaded_by" is not implemented
         if errno is not -1708 then
             error msg number errno
         end if
+        try -- to keep compatibility with ModuleLoader.osax
+            --log "before module loaded : " & (name of a_script)
+            set a_script to module loaded a_script by me
+            a_moduleinfo's set_module_script(a_script)
+        on error msg number errno
+            -- 1800 : the module is not found
+            -- -1708 : handelr "module_loaded_by" is not implemented
+            if errno is not -1708 then
+                error msg number errno
+            end if
+        end try
     end try
     
     trim_requied_import_items(a_script)
