@@ -4,12 +4,14 @@
 #include "AEUtils.h"
 #import <OSAKit/OSAKit.h>
 #include "ExtractDependencies.h"
+#import "AppDelegate.h"
 
 #define useLog 0
 
 @implementation MeetTheVersionCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     OSErr err = noErr;
     NSString *version = nil;
     NSString *condition = nil;
@@ -42,6 +44,7 @@ bail:
 @implementation ModuleSpecCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     OSErr err = noErr;
     AEDesc module_name = {typeNull, NULL};
     AEDesc module_spec = {typeNull, NULL};
@@ -106,6 +109,7 @@ bail:
 @implementation SetAdditionalModulePathsToCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     OSErr err = noErr;
     CFMutableArrayRef module_paths = NULL;
     Boolean ismsg;
@@ -134,6 +138,7 @@ bail:
 @implementation ModulePathsCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     NSMutableArray *all_paths = [NSMutableArray arrayWithCapacity:6];
     NSArray *additional_paths = additionalModulePaths();
     if (additional_paths) {
@@ -154,6 +159,7 @@ OSErr extractDependenciesASObjC(AEDesc *script_data_ptr, AEDesc *dependencies, N
 
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     OSErr err;
     AEDesc script_data = {typeNull, NULL};
     AEDescList dependencies = {typeNull, NULL};
@@ -222,6 +228,7 @@ bail:
 @implementation LoadModuleCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     OSErr err = noErr;
     OSAID script_id = kOSANullScript;
     ComponentInstance scriptingComponent = NULL;
@@ -312,6 +319,7 @@ bail:
 @implementation FindModuleCommand
 - (id)performDefaultImplementation
 {
+    [AppDelegate updateLastAccess];
     ModuleRef *module_ref = findModuleWithEvent([[self appleEvent] aeDesc],
                                                 self);
     NSURL *url = nil;

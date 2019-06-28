@@ -7,16 +7,35 @@
 //
 
 #import "AppDelegate.h"
+#define tinterval 60.0*10.0
 
 @interface AppDelegate ()
-
-@property (weak) IBOutlet NSWindow *window;
+    @property (weak) IBOutlet NSWindow *window;
+    @property (strong)NSTimer *timer;
 @end
 
-@implementation AppDelegate
+static time_t LASTACCESS;
 
+@implementation AppDelegate
++ (void)updateLastAccess {
+    LASTACCESS = time(NULL);
+}
+
+- (void)timerFired:(NSTimer *)t {
+    time_t current_time = time(NULL);
+    if (current_time - LASTACCESS > tinterval) {
+        [NSApp terminate:self];
+    }
+}
+    
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+    [AppDelegate updateLastAccess];
+
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:tinterval
+                                                  target:self
+                                                selector:@selector(timerFired:)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 
