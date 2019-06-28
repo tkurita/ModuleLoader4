@@ -226,11 +226,24 @@ on setup(a_script)
             if class of _collecting_modules_ of a_script is boolean then -- avoid problem in osacompile Mac OS X 10.6
                 set my _collecting to _collecting_modules_ of a_script
             end if
+        on error
+            try -- compatibility with ModuleLoader.osax
+                if class of collecting modules of a_script is boolean then
+                    set my _collecting to collecting modules of a_script
+                end if
+            end try
         end try
+        
         try
             if class of _only_local_ of a_script is boolean then -- avoid problem in osacompile Mac OS X 10.6
-                set my _only_local to only local of a_script
+                set my _only_local to _only_local_ of a_script
             end if
+        on error
+            try -- compatibility with ModuleLoader.osax
+                if class of only local of a_script is boolean then
+                    set my _only_local to only local of a_script
+                end if
+            end try
         end try
     end if
     
