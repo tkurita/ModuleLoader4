@@ -98,7 +98,10 @@ on export_to_cache(a_name, a_script)
     my _module_cache's add_module(a_name, missing value, a_moduleinfo)
 end export_to_cache
 
-on load(mspec)
+on load(mspec) -- it is unknown to make this handler public. keep private and undocumented.
+    if my _module_cache is missing value then
+        set my _module_cache to make ModuleCache
+    end if
     set a_moduleinfo to load_module(mspec)
     if a_moduleinfo's need_setup() then
         if not my _loadonly then
@@ -107,18 +110,6 @@ on load(mspec)
     end if
     return a_moduleinfo's module_script()
 end load
-
-on current_location()
-    set a_path to path to me
-    if (POSIX path of a_path starts with "/private/var/folders/") then
-        ¬
-        error "This local loader applet does not allow to access own location. Recreate the local loader applet." number 1805
-    end if
-    tell application "Finder"
-        set a_folder to container of a_path as alias
-    end tell
-    return a_folder
-end current_location
 
 on load_module(mspec) -- private
     --log "start load_module"
@@ -167,9 +158,6 @@ on load_module(mspec) -- private
     end if
     
     set adpaths to my _additional_paths
-    if (my _is_local and ((count adpaths) is 0)) then
-        set adpaths to {current_location()}
-    end if
     
     if my _collecting or my _only_local then
         try
@@ -221,10 +209,16 @@ on resolve_dependencies(a_moduleinfo)
     --log "end reslove dependencies"
 end resolve_dependencies
 
+on resolve_module_finder()
+    if my _module_finder is missing value then
+        set my _module_finder to (path to resource "ModuleFinder.app") as text
+    end if
+end resolve_module_finder
+
 on setup(a_script)
     global __module_dependencies__
     set my _module_cache to make ModuleCache
-    set my _module_finder to (path to resource "ModuleFinder.app") as text
+    resolve_module_finder()
     
     -- options for local loader
     if my _is_local then

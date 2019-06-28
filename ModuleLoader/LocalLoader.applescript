@@ -23,11 +23,25 @@ on collecting_modules(a_flag)
 	return me
 end collecting_modules
 
+
+on current_location()
+    set a_path to path to me
+    if (POSIX path of a_path starts with "/private/var/folders/") then
+        ¬
+        error "This local loader applet does not allow to access own location. Recreate the local loader applet." number 1805
+    end if
+    tell application "Finder"
+        set a_folder to container of a_path as alias
+    end tell
+    return a_folder
+end current_location
+
 on make_loader()
 	tell script (get "ModuleLoader")
+        resolve_module_finder()
 		set_local(true)
 		set_localonly(my _only_local)
-		set_additional_paths({current_location()})
+		set_additional_paths({my current_location()})
 		collecting_modules(my _collecting)
 		return it
 	end tell
