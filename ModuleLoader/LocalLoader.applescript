@@ -8,7 +8,7 @@ property _only_local : false
 property _collecting : false
 
 on load(a_name)
-	tell make_loader()
+	tell loader()
 		return load(a_name)
 	end tell
 end load
@@ -36,7 +36,7 @@ on current_location()
     return a_folder
 end current_location
 
-on make_loader()
+on loader()
 	tell script (get "ModuleLoader")
         resolve_module_finder()
 		set_local(true)
@@ -45,6 +45,10 @@ on make_loader()
 		collecting_modules(my _collecting)
 		return it
 	end tell
+end loader
+
+on make_loader()
+    return loader()
 end make_loader
 
 on set_opts(opts)
@@ -60,7 +64,7 @@ on set_opts(opts)
 end set_opts
 
 on loader_with_opts(opts)
-	return make_loader()'s set_opts(opts)
+	return loader()'s set_opts(opts)
 end loader_with_opts
 
 on idle
