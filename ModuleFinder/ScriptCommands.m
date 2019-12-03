@@ -24,11 +24,12 @@
     
     vercond_set = VersionConditionSetCreate((__bridge CFStringRef)(condition),
                                             &errmsg);
+    Boolean result = false;
     if (errmsg) {
         err = kFailedToParseVersionCondition;
         goto bail;
     }
-    Boolean result = VersionConditionSetIsSatisfied(vercond_set,
+    result = VersionConditionSetIsSatisfied(vercond_set,
                                                     (__bridge CFStringRef)(version));
     
 bail:

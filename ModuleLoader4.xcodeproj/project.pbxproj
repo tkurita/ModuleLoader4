@@ -36,6 +36,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*main.applescript";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/main.scpt",
@@ -101,7 +103,7 @@
 		2CB1A9EB22B3B74D000063DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CB5C7C622BD23180050D357 /* ModuleLoader.scptd */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModuleLoader.scptd; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB5C7C822BD23180050D357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2CB5C7CD22BD23A20050D357 /* main.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = main.applescript; sourceTree = "<group>"; };
+		2CB5C7CD22BD23A20050D357 /* main.applescript */ = {isa = PBXFileReference; explicitFileType = sourcecode.applescript; fileEncoding = 4; path = main.applescript; sourceTree = "<group>"; };
 		2CD79D3522C468270083C403 /* ConsoleLog.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = ConsoleLog.applescript; sourceTree = "<group>"; };
 		2CD79D3622C468270083C403 /* FastList.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = FastList.applescript; sourceTree = "<group>"; };
 		2CD79D3722C468270083C403 /* LocalLoader.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

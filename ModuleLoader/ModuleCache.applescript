@@ -1,10 +1,11 @@
 global FastList
+global _module_finder
 property XList : missing value
 
 on run
 	return me
 end run
-
+    
 on make
 	return make_with_lists({}, {}, {})
 end make
@@ -36,7 +37,7 @@ on search_value(a_key, key_list, value_list)
 	-- when a value is a record, "is in" operator does not works.
 	set an_index to key_list's index_of(a_key)
 	if an_index is 0 then
-		error number 900
+		return missing value
 	end if
 	
 	return value_list's item_at(an_index)
@@ -63,13 +64,17 @@ on module_for_specifier(mspec)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
 			set a_version to a_moduleinfo's module_version()
-			if meet the version a_version condition required_version then
-				return a_moduleinfo
-			end if
+			tell application _module_finder
+				using terms from application "ModuleFinder"
+					if meet the version a_version condition required_version then
+						return a_moduleinfo
+					end if
+				end using terms from
+			end tell
 		end if
 	end repeat
 	
-	error number 900
+	return missing value
 end module_for_specifier
 
 on module_for_name_version(required_name, required_version)
@@ -79,14 +84,18 @@ on module_for_name_version(required_name, required_version)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
 			set a_version to a_moduleinfo's module_version()
-			if (a_version is not missing value) Å 
-				and (meet the version a_version condition required_version) then
-				return a_moduleinfo
-			end if
+			tell application _module_finder
+				using terms from application "ModuleFinder"
+					if (a_version is not missing value) Å 
+						and (meet the version a_version condition required_version) then
+						return a_moduleinfo
+					end if
+				end using terms from
+			end tell
 		end if
 	end repeat
 	
-	error number 900
+	return missing value
 end module_for_name_version
 
 on module_for_script(a_script)
@@ -98,7 +107,7 @@ on module_for_script(a_script)
 		end if
 	end repeat
 	
-	error number 900
+	return missing value
 end module_for_script
 
 on replace_module(a_name, a_path, a_moduleinfo)
