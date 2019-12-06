@@ -305,9 +305,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CB5C7CC22BD23180050D357 /* Build configuration list for PBXNativeTarget "ModuleLoader" */;
 			buildPhases = (
+				2CB5C7C422BD23180050D357 /* Resources */,
 				2CB5C7C222BD23180050D357 /* Sources */,
 				2CB5C7C322BD23180050D357 /* Frameworks */,
-				2CB5C7C422BD23180050D357 /* Resources */,
 			);
 			buildRules = (
 				2CD79D3222C454710083C403 /* PBXBuildRule */,
