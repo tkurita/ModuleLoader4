@@ -7,7 +7,8 @@ DSTROOT = ${HOME}
 default: trash clean install
 
 trash:
-	trash ${INSTALL_ROOT}/${INSTALL_PATH}/$(PRODUCT_NAME).scptd
+	trash "${DSTROOT}/Library/Script Libraries/$(PRODUCT_NAME).scptd"
+	#trash ${INSTALL_ROOT}/${INSTALL_PATH}/$(PRODUCT_NAME).scptd
 	#trash ${DSTROOT}/Applications/$(PRODUCT_NAME).app
 
 clean:

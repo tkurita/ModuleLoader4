@@ -1,6 +1,6 @@
 global FastList
-global _module_finder
 property XList : missing value
+property _module_finder : missing value
 
 on run
 	return me
@@ -15,6 +15,10 @@ on initialize()
 	return me
 end initialize
 
+on set_module_finder(x)
+    set my _module_finder to x
+end set_module_finder
+
 on make_with_lists(name_list, path_list, value_list)
 	set name_list to XList's make_with(name_list)
 	set path_list to XList's make_with(path_list)
@@ -23,6 +27,7 @@ on make_with_lists(name_list, path_list, value_list)
 end make_with_lists
 
 on make_with_xlists(name_list, path_list, value_list)
+    --log "start make_with_xlists in ModuleCache"
 	set a_parent to me
 	script ModuleCache
 		property parent : a_parent
@@ -64,12 +69,12 @@ on module_for_specifier(mspec)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
 			set a_version to a_moduleinfo's module_version()
-			tell application _module_finder
-				using terms from application "ModuleFinder"
+			tell application (my _module_finder)
+				--using terms from application "ModuleFinder"
 					if meet the version a_version condition required_version then
 						return a_moduleinfo
 					end if
-				end using terms from
+				--end using terms from
 			end tell
 		end if
 	end repeat
@@ -78,19 +83,19 @@ on module_for_specifier(mspec)
 end module_for_specifier
 
 on module_for_name_version(required_name, required_version)
+    --log "start module_for_name_version"
 	set an_index to 0
 	repeat with n from 1 to (my _values's count_items())
 		set a_name to my _names's item_at(n)
 		set a_moduleinfo to my _values's item_at(n)
 		if a_name is required_name then
 			set a_version to a_moduleinfo's module_version()
-			tell application _module_finder
-				using terms from application "ModuleFinder"
-					if (a_version is not missing value) Å 
-						and (meet the version a_version condition required_version) then
+			tell application (my _module_finder)
+				--using terms from application "ModuleFinder"
+					if (a_version is not missing value) and (meet the version a_version condition required_version) then
 						return a_moduleinfo
 					end if
-				end using terms from
+				--end using terms from
 			end tell
 		end if
 	end repeat

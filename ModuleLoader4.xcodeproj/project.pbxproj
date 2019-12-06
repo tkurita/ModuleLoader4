@@ -107,7 +107,7 @@
 		2CD79D3522C468270083C403 /* ConsoleLog.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = ConsoleLog.applescript; sourceTree = "<group>"; };
 		2CD79D3622C468270083C403 /* FastList.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = FastList.applescript; sourceTree = "<group>"; };
 		2CD79D3722C468270083C403 /* LocalLoader.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
-		2CD79D3822C468270083C403 /* ModuleCache.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = ModuleCache.applescript; sourceTree = "<group>"; };
+		2CD79D3822C468270083C403 /* ModuleCache.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ModuleCache.applescript; sourceTree = "<group>"; };
 		2CD79D3922C468270083C403 /* ModuleInfo.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = ModuleInfo.applescript; sourceTree = "<group>"; };
 		2CD79D3A22C468270083C403 /* PropertyAccessor.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = PropertyAccessor.applescript; sourceTree = "<group>"; };
 		2CD79D4122C49B290083C403 /* ModuleFinder.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = ModuleFinder.r; sourceTree = "<group>"; };
