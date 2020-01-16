@@ -28,9 +28,9 @@ on module_version()
 end module_version
 
 on make_with_loadinfo(loadinfo)
-	using terms from application "ModuleFinder"
+	--using terms from application "ModuleFinder"
 		return make_with_vars(loadinfo's script, loadinfo's dependency info, loadinfo's version, false)
-	end using terms from
+	--end using terms from
 end make_with_loadinfo
 
 on make_with_vars(a_script, dependencies_list, a_version, setupped_flag)

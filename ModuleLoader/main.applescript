@@ -47,7 +47,8 @@ property _module_cache : missing value
 --property _logger : ConsoleLog's make_with("ModuleLoader")'s start_log()
 property _logger : missing value
 property _module_finder : missing value
-
+property _exported : {}
+ 
 (** Properties for local loader **)
 property _is_local : false
 property _additional_paths : {}
@@ -57,7 +58,9 @@ property _only_local : false
  
 on has_module_loaded_by(a_script)
     try
-        return a_script's module_loaded_by's class is handler
+        -- without coercing type value into text,
+        -- always false.
+        return a_script's module_loaded_by's class as text is "handler"
     end try
     return false
 end had_module_loaded_by
@@ -67,7 +70,7 @@ on setup_script(a_moduleinfo)
 	-- log ("start setup_script" & " for " & name of a_script)
 	a_moduleinfo's set_setupped(true)
 	resolve_dependencies(a_moduleinfo, false)
-    -- log "after resolve_dependencies in setup_script"
+    --log "after resolve_dependencies in setup_script"
     if has_module_loaded_by(a_script) then
         set a_script to a_script's module_loaded_by(me)
         a_moduleinfo's set_module_script(a_script)
@@ -129,8 +132,16 @@ on do_log(msg)
 end do_log
 
 on export_to_cache(a_name, a_script)
-	set a_moduleinfo to ModuleInfo's make_with_vars(a_script, {}, missing value, true)
-	return my _module_cache's add_module(a_name, missing value, a_moduleinfo)
+    --log "start export_to_cache"
+    tell application (my _module_finder)
+        --using terms from application "ModuleFinder"
+            set dependencies to extract dependencies for a_script
+        --end using terms from
+    end tell
+	set a_moduleinfo to ModuleInfo's make_with_vars(a_script, dependencies, missing value, false)
+    my _module_cache's add_module(a_name, missing value, a_moduleinfo)
+    setup_script(a_moduleinfo)
+    return me
 end export_to_cache
 
 on load_module(mspec) -- private
@@ -223,7 +234,7 @@ on load_module(mspec) -- private
 end load_module
 
 on resolve_dependencies(a_moduleinfo)
-	-- log "start reslove dependencies"
+	--log "start resolve dependencies"
 	repeat with a_dep in a_moduleinfo's dependencies()
 		set an_accessor to PropertyAccessor's make_with_name(name of a_dep)
         --using terms from application "ModuleFinder"
@@ -234,7 +245,7 @@ on resolve_dependencies(a_moduleinfo)
 		end if
 		an_accessor's set_value(a_moduleinfo's module_script(), dep_moduleinfo's module_script())
 	end repeat
-	-- log "end reslove dependencies"
+	--log "end resolve dependencies"
 end resolve_dependencies
 
 on resolve_module_finder()
@@ -254,9 +265,14 @@ end resolve_module_finder
 *)
 on setup(a_script)
 	global __module_dependencies__
-	set my _module_cache to make ModuleCache
-	resolve_module_finder()
-	
+    resolve_module_finder()
+    set my _module_cache to make ModuleCache
+    if (length of my _exported > 0) then
+        repeat with x in my _exported
+            export_to_cache(name of x, x)
+        end repeat
+    end if
+ 	
 	-- options for local loader
 	if my _is_local then
 		try
@@ -432,22 +448,32 @@ on module_version_of(a_script)
     a_moduleinfo's module_version()
 end module_version_of
 
-(*@abstruct
- Does not work. Because _moduleCache is generated in setup().
- Therefor, before calling setup(), a library can not be added into _moduleCache._moduleCache.
+(*!@abstruct
+Export a specified script object to other libraries before setup().
+
+Use to provide a library without loading a file.
 
 Add a script into the library cache for testing.
-@param a_script (script) : a script to test
-@result script : ModuleCache
+@param a_script (script) : a script to be a library
+@result script : me
 @example
-use SimpleTextLib : script "SampleLibs/SimpleTextLib"
+property ExtendedTextLib : "@module"
+
+script SimpleTextLib
+    on hello()
+        return "hello"
+    end hello
+end script
+ 
 tell script "ModuleLoader"
-    export(me)
+    export(SimpleTextLib)
     setup(me)
- end tell
+end tell
+ExtendedTextLib's hello() -- "hello"
 *)
 on export(a_script) -- save myself to cache when load a module which load myself.
-     return export_to_cache(name of a_script, a_script)
+    set end of my _exported to a_script
+    return me
 end export
 
 (* @group Local Loader *)
@@ -479,13 +505,13 @@ on local_loader()
 	return load script (path to resource "LocalLoader.scpt")
 end local_loader
 
--- use property _only_local 
+-- use property _only_local_
 on set_localonly(a_flag)
 	set my _only_local to a_flag
 	return me
 end set_localonly
 
--- use property _collecting
+-- use property _collecting_modules_
 on collecting_modules(a_flag)
 	set my _collecting to a_flag
 	return me
