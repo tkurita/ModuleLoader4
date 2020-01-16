@@ -130,10 +130,12 @@ on add_module(a_name, a_path, a_moduleinfo)
 	my _names's push(a_name)
 	my _paths's push(a_path)
 	my _values's push(a_moduleinfo)
+    return me
 end add_module
 
 on prepend_module(a_name, a_path, a_moduleinfo)
 	my _names's unshift(a_name)
 	my _paths's unshift(a_path)
 	my _values's unshift(a_moduleinfo)
+    return me
 end prepend_module
