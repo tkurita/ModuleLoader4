@@ -4,8 +4,8 @@
 #include "ModuleCondition.h"
 
 void setAdditionalModulePaths(CFArrayRef array);
-NSArray *additionalModulePaths();
-NSArray *copyDefaultModulePaths();
+NSArray *additionalModulePaths(void);
+NSArray *copyDefaultModulePaths(void);
 OSErr findModuleWithName(NSURL *container_url,
                          ModuleCondition *module_condition,
                          Boolean searchSubFolders,
