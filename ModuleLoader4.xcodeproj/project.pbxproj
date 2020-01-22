@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,7 +42,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/main.scpt",
 			);
-			script = "#pwd\n#printenv\n\ncd \"$TARGET_BUILD_DIR\"\nmkdir -p \"$SCRIPTS_FOLDER_PATH\"\ncd \"$INPUT_FILE_DIR\"\nosacompile -d -i \"${BUILT_PRODUCTS_DIR}/ModuleFinder.app\" -o \"$TARGET_BUILD_DIR/$SCRIPTS_FOLDER_PATH/main.scpt\" \"$INPUT_FILE_BASE.applescript\"";
+			script = "#pwd\n#printenv\n\ncd \"$TARGET_BUILD_DIR\"\nmkdir -p \"$SCRIPTS_FOLDER_PATH\"\ncd \"$INPUT_FILE_DIR\"\nosacompile -d -i \"${BUILT_PRODUCTS_DIR}/ModuleFinder.app\" -o \"$TARGET_BUILD_DIR/$SCRIPTS_FOLDER_PATH/main.scpt\" \"$INPUT_FILE_BASE.applescript\"\n";
 		};
 /* End PBXBuildRule section */
 
@@ -105,6 +105,7 @@
 		2CB5C7C622BD23180050D357 /* ModuleLoader.scptd */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModuleLoader.scptd; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB5C7C822BD23180050D357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CB5C7CD22BD23A20050D357 /* main.applescript */ = {isa = PBXFileReference; explicitFileType = sourcecode.applescript; fileEncoding = 4; path = main.applescript; sourceTree = "<group>"; };
+		2CCCC75A23D8283D0053BC1D /* ModuleFinder.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = ModuleFinder.app; sourceTree = "<group>"; };
 		2CD79D3522C468270083C403 /* ConsoleLog.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = ConsoleLog.applescript; sourceTree = "<group>"; };
 		2CD79D3622C468270083C403 /* FastList.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = FastList.applescript; sourceTree = "<group>"; };
 		2CD79D3722C468270083C403 /* LocalLoader.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = LocalLoader.applescript; sourceTree = "<group>"; };
@@ -205,6 +206,7 @@
 		2CB1A9D422B3B74D000063DF = {
 			isa = PBXGroup;
 			children = (
+				2CCCC75923D8283D0053BC1D /* Nortalized */,
 				2C886C2022BA92200044C035 /* History.txt */,
 				2CD79D4422C4A0920083C403 /* Makefile */,
 				2CB1A9DF22B3B74D000063DF /* ModuleFinder */,
@@ -281,6 +283,14 @@
 			path = ModuleLoader;
 			sourceTree = "<group>";
 		};
+		2CCCC75923D8283D0053BC1D /* Nortalized */ = {
+			isa = PBXGroup;
+			children = (
+				2CCCC75A23D8283D0053BC1D /* ModuleFinder.app */,
+			);
+			path = Nortalized;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -308,6 +318,7 @@
 			buildConfigurationList = 2CB5C7CC22BD23180050D357 /* Build configuration list for PBXNativeTarget "ModuleLoader" */;
 			buildPhases = (
 				2CB5C7C422BD23180050D357 /* Resources */,
+				2CCCC75E23D8388F0053BC1D /* ShellScript */,
 				2CB5C7C222BD23180050D357 /* Sources */,
 				2CB5C7C322BD23180050D357 /* Frameworks */,
 			);
@@ -338,13 +349,11 @@
 					};
 					2CB5C7C522BD23180050D357 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 5VBC6385DN;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 2CB1A9D822B3B74D000063DF /* Build configuration list for PBXProject "ModuleLoader4" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -411,6 +420,24 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2CCCC75E23D8388F0053BC1D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "MODULE_FINDER=\"$PROJECT_DIR/Nortalized/ModuleFinder.app\"\n! [ -e \"${MODULE_FINDER}\" ] && exit 0\n# rm -rf \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ModuleFinder.app\"\necho \"Replace ModuleFinder.app with ${MODULE_FINDER}\"\ncp -af \"${MODULE_FINDER}\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2CD79D3F22C491910083C403 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -424,7 +451,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd $INPUT_FILE_DIR\n/usr/bin/sdp -f a -o \"$SCRIPT_OUTPUT_FILE_0\" \"$SCRIPT_INPUT_FILE_0\"";
+			shellScript = "cd $INPUT_FILE_DIR\n/usr/bin/sdp -f a -o \"$SCRIPT_OUTPUT_FILE_0\" \"$SCRIPT_INPUT_FILE_0\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -511,6 +539,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COPYRIGHT = "Copyright 2020, KuritaTetsuro";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -567,6 +596,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COPYRIGHT = "Copyright 2020, KuritaTetsuro";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -595,7 +625,11 @@
 				DEVELOPMENT_TEAM = 5VBC6385DN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ModuleFinder/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleFinder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -611,7 +645,11 @@
 				DEVELOPMENT_TEAM = 5VBC6385DN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ModuleFinder/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleFinder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -620,12 +658,20 @@
 		2CB5C7C922BD23180050D357 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5VBC6385DN;
+				COPYRIGHT = "Copyright 2020, Kurita Tetsuro. All rights reserved.";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ModuleLoader/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Script Libraries";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MARKETING_VERSION = 4.0;
+				OTHER_CODE_SIGN_FLAGS = "--dryrun";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleLoader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = scptd;
 			};
 			name = Debug;
@@ -633,12 +679,20 @@
 		2CB5C7CA22BD23180050D357 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5VBC6385DN;
+				COPYRIGHT = "Copyright 2020, Kurita Tetsuro. All rights reserved.";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ModuleLoader/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Script Libraries";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MARKETING_VERSION = 4.0;
+				OTHER_CODE_SIGN_FLAGS = "--dryrun";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleLoader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = scptd;
 			};
 			name = Release;
