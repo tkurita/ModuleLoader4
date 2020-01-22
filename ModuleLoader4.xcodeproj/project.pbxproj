@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C0880BA23D81529007FA61D /* ModuleFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ModuleFinder.entitlements; sourceTree = "<group>"; };
 		2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ModuleFinder.sdef; sourceTree = "<group>"; };
 		2C886BE322B8DFF60044C035 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2C886BE422B8DFF60044C035 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
@@ -229,6 +230,7 @@
 		2CB1A9DF22B3B74D000063DF /* ModuleFinder */ = {
 			isa = PBXGroup;
 			children = (
+				2C0880BA23D81529007FA61D /* ModuleFinder.entitlements */,
 				2CD79D4922C503830083C403 /* ScriptCommands.m */,
 				2CD79D4A22C503830083C403 /* ScriptCommands.h */,
 				2C886C0D22B8EAD80044C035 /* ModuleLoaderConstants.h */,
@@ -570,8 +572,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ModuleFinder/ModuleFinder.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5VBC6385DN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ModuleFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleFinder";
@@ -583,8 +588,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ModuleFinder/ModuleFinder.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5VBC6385DN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ModuleFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleFinder";
