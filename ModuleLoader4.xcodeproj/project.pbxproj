@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C28079923DFD30100845F3D /* HelpBookScriptCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C28079823DFD30100845F3D /* HelpBookScriptCommands.m */; };
+		2C2807A423E02EC000845F3D /* ModuleLoaderHelp in Resources */ = {isa = PBXBuildFile; fileRef = 2C2807A323E02EC000845F3D /* ModuleLoaderHelp */; };
 		2C886BDF22B77FC10044C035 /* ModuleFinder.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */; };
 		2C886BE522B8DFF60044C035 /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C886BE322B8DFF60044C035 /* AEUtils.c */; };
 		2C886BF322B8E0040044C035 /* TXRegularExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C886BEB22B8E0040044C035 /* TXRegularExpression.c */; };
@@ -68,6 +69,7 @@
 		2C0880BA23D81529007FA61D /* ModuleFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ModuleFinder.entitlements; sourceTree = "<group>"; };
 		2C28079723DFD30100845F3D /* HelpBookScriptCommands.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpBookScriptCommands.h; sourceTree = "<group>"; };
 		2C28079823DFD30100845F3D /* HelpBookScriptCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpBookScriptCommands.m; sourceTree = "<group>"; };
+		2C2807A323E02EC000845F3D /* ModuleLoaderHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ModuleLoaderHelp; sourceTree = "<group>"; };
 		2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ModuleFinder.sdef; sourceTree = "<group>"; };
 		2C886BE322B8DFF60044C035 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2C886BE422B8DFF60044C035 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				2CD79D3822C468270083C403 /* ModuleCache.applescript */,
 				2CD79D3922C468270083C403 /* ModuleInfo.applescript */,
 				2CD79D3A22C468270083C403 /* PropertyAccessor.applescript */,
+				2C2807A323E02EC000845F3D /* ModuleLoaderHelp */,
 			);
 			path = ModuleLoader;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				2CB5C7C422BD23180050D357 /* Resources */,
 				2CCCC75E23D8388F0053BC1D /* ShellScript */,
 				2CB5C7C222BD23180050D357 /* Sources */,
+				2C2807A923E02FBD00845F3D /* ShellScript */,
 				2CB5C7C322BD23180050D357 /* Frameworks */,
 			);
 			buildRules = (
@@ -407,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C2807A423E02EC000845F3D /* ModuleLoaderHelp in Resources */,
 				2CD79D3D22C486760083C403 /* ModuleFinder.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,6 +430,23 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2C2807A923E02FBD00845F3D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/bin/zsh -l";
+			shellScript = "cd \"$BUILT_PRODUCTS_DIR\"\nSetupHelpBook \"$FULL_PRODUCT_NAME\" --localized --newlayout --source '/Users/tkurita/Factories/Websites/scriptfactory/web-content/XModules/ModuleLoader/manual/'\n";
+		};
 		2CCCC75E23D8388F0053BC1D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -440,7 +462,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "exit 0\nMODULE_FINDER=\"$PROJECT_DIR/Nortalized/ModuleFinder.app\"\n! [ -e \"${MODULE_FINDER}\" ] && exit 0\n# rm -rf \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ModuleFinder.app\"\necho \"Replace ModuleFinder.app with ${MODULE_FINDER}\"\ncp -af \"${MODULE_FINDER}\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n";
+			shellScript = "#exit 0\nMODULE_FINDER=\"$PROJECT_DIR/Nortalized/ModuleFinder.app\"\n! [ -e \"${MODULE_FINDER}\" ] && exit 0\n# rm -rf \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ModuleFinder.app\"\necho \"Replace ModuleFinder.app with ${MODULE_FINDER}\"\ncp -af \"${MODULE_FINDER}\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2CD79D3F22C491910083C403 /* ShellScript */ = {

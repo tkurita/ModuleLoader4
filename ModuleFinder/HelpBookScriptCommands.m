@@ -3,9 +3,6 @@
 #include <Carbon/Carbon.h>
 
 enum {
-    regiesrHBErr            = 1850,  /*Failed to register HelpBook*/
-    registerHBAfterRecoveringErr = 1851, /*Succeeded in recovering Info.plist
-                                          but failed to register HelpBook*/
     NoCFBundleHelpBookName = 1852 /*No CFBundleHelpBookName in Info.plist*/
 };
 
