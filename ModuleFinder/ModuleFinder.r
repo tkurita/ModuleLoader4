@@ -251,6 +251,39 @@ resource 'aete' (0, "ModuleFinder Terminology") {
 		},
 		{
 			/* Enumerations */
+		},
+
+		"HelpBook Suite",
+		"Treat Help Books in bundles",
+		'HBsu',
+		1,
+		1,
+		{
+			/* Events */
+
+			"show helpbook",
+			"Show a help book in specfied bundle with Help Viewer.",
+			'HBsu', 'shHB',
+			'TEXT',
+			"The name of the registered help book.",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			'file',
+			"A reference to a bundle which contains a help book.",
+			directParamOptional,
+			singleItem, notEnumerated, Reserved13,
+			{
+
+			}
+		},
+		{
+			/* Classes */
+
+		},
+		{
+			/* Comparisons */
+		},
+		{
+			/* Enumerations */
 		}
 	}
 };

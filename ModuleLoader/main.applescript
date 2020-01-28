@@ -562,3 +562,14 @@ on clear_cache()
 	set my _module_cache to make ModuleCache
 	return me
 end clear_cache
+
+on run
+    resolve_module_finder()
+    try
+        tell application (my _module_finder)
+            show helpbook (path to me)
+        end tell
+    on error msg number errno
+        display alert (msg & return & errno)
+    end try
+end run

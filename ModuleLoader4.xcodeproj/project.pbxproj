@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C28079923DFD30100845F3D /* HelpBookScriptCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C28079823DFD30100845F3D /* HelpBookScriptCommands.m */; };
 		2C886BDF22B77FC10044C035 /* ModuleFinder.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */; };
 		2C886BE522B8DFF60044C035 /* AEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C886BE322B8DFF60044C035 /* AEUtils.c */; };
 		2C886BF322B8E0040044C035 /* TXRegularExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C886BEB22B8E0040044C035 /* TXRegularExpression.c */; };
@@ -65,6 +66,8 @@
 
 /* Begin PBXFileReference section */
 		2C0880BA23D81529007FA61D /* ModuleFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ModuleFinder.entitlements; sourceTree = "<group>"; };
+		2C28079723DFD30100845F3D /* HelpBookScriptCommands.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpBookScriptCommands.h; sourceTree = "<group>"; };
+		2C28079823DFD30100845F3D /* HelpBookScriptCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpBookScriptCommands.m; sourceTree = "<group>"; };
 		2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ModuleFinder.sdef; sourceTree = "<group>"; };
 		2C886BE322B8DFF60044C035 /* AEUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AEUtils.c; sourceTree = "<group>"; };
 		2C886BE422B8DFF60044C035 /* AEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEUtils.h; sourceTree = "<group>"; };
@@ -256,6 +259,8 @@
 				2C886BDE22B77FC10044C035 /* ModuleFinder.sdef */,
 				2CD79D4122C49B290083C403 /* ModuleFinder.r */,
 				2CB1A9E322B3B74D000063DF /* Supporting Files */,
+				2C28079723DFD30100845F3D /* HelpBookScriptCommands.h */,
+				2C28079823DFD30100845F3D /* HelpBookScriptCommands.m */,
 			);
 			path = ModuleFinder;
 			sourceTree = "<group>";
@@ -435,7 +440,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "MODULE_FINDER=\"$PROJECT_DIR/Nortalized/ModuleFinder.app\"\n! [ -e \"${MODULE_FINDER}\" ] && exit 0\n# rm -rf \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ModuleFinder.app\"\necho \"Replace ModuleFinder.app with ${MODULE_FINDER}\"\ncp -af \"${MODULE_FINDER}\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n";
+			shellScript = "exit 0\nMODULE_FINDER=\"$PROJECT_DIR/Nortalized/ModuleFinder.app\"\n! [ -e \"${MODULE_FINDER}\" ] && exit 0\n# rm -rf \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ModuleFinder.app\"\necho \"Replace ModuleFinder.app with ${MODULE_FINDER}\"\ncp -af \"${MODULE_FINDER}\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2CD79D3F22C491910083C403 /* ShellScript */ = {
@@ -473,6 +478,7 @@
 				2C886C0422B8E7220044C035 /* ModuleRef.c in Sources */,
 				2C886C0122B8E7140044C035 /* ModuleCondition.c in Sources */,
 				2C886C0A22B8E7360044C035 /* findModule.m in Sources */,
+				2C28079923DFD30100845F3D /* HelpBookScriptCommands.m in Sources */,
 				2CD79D4B22C503830083C403 /* ScriptCommands.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -662,7 +668,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPYRIGHT = "Copyright 2020, Kurita Tetsuro. All rights reserved.";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ModuleLoader/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Script Libraries";
@@ -683,7 +689,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPYRIGHT = "Copyright 2020, Kurita Tetsuro. All rights reserved.";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ModuleLoader/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Script Libraries";

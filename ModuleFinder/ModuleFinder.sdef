@@ -99,4 +99,11 @@
 			<parameter name="by" code="whLD" description="A loader object" type="script" optional="yes"/>
 		</event>
 	</suite>
+	<suite name="HelpBook Suite" code="HBsu" description="Treat Help Books in bundles">
+		<command name="show helpbook" code="HBsushHB" description="Show a help book in specfied bundle with Help Viewer.">
+			<cocoa class="ShowHelpBookCommand"/>
+			<direct-parameter description="A reference to a bundle which contains a help book." type="file" optional="yes"/>
+			<result description="The name of the registered help book." type="text"/>
+		</command>
+	</suite>
 </dictionary>
