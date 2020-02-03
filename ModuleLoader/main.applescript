@@ -24,7 +24,7 @@ Repository || https://github.com/tkurita/ModuleLoader4
 * Requirements : OS X 10.9 or later
 * ((<Home page>)) || ((<ChangeLog>)) || ((<Repository>))
 
-ModuleLoader is a module loading system for AppleScript.
+ModuleLoader is a library system for AppleScript.
 *)
 use scripting additions
 
