@@ -55,7 +55,6 @@ property _additional_paths : {}
 property _collecting : false
 property _only_local : false
 
- 
 on has_module_loaded_by(a_script)
     try
         -- without coercing type value into text,
@@ -209,7 +208,7 @@ on load_module(mspec) -- private
 			end if
 		end try
 	else
-		tell application _module_finder
+		tell application (my _module_finder)
 			--using terms from application "ModuleFinder"
 				set a_loadinfo to load module mspec additional paths adpaths
 			--end using terms from
@@ -273,6 +272,23 @@ on setup(a_script)
         end repeat
     end if
  	
+    -- OSA_LIBRARY_PATH
+    -- set_logging(true, "New ModuleLoader")
+    set env_path to system attribute("OSA_LIBRARY_PATH")
+    if env_path is not "" then
+        -- do_log("OSA_LIBRARY_PATH : "&env_path)
+        set predelim to AppleScript's text item delimiters
+        set AppleScript's text item delimiters to {":"}
+        set env_path_list to every text item of evn_path
+        set AppleScript's text item delimiters to predelim
+        append_paths(env_path_list)
+        set my _is_local to true
+    (*
+    else
+        do_log("OSA_LIBRARY_PATH is not found")
+    *)
+    end if
+ 
 	-- options for local loader
 	if my _is_local then
 		try
@@ -304,6 +320,7 @@ on setup(a_script)
 		end try
 	end if
 	
+    
 	try
 		set dependencies to __module_dependencies__
 		--log "found __module_dependencies__"
@@ -383,7 +400,7 @@ script "ModuleLoader"'s module_paths()
 *)
 on module_paths()
      resolve_module_finder()
-     tell application _module_finder
+     tell application (my _module_finder)
          --using terms from application "ModuleFinder"
              return my _additional_paths & (module paths)
          --end using terms from
@@ -418,15 +435,27 @@ tell script "ModuleLoader"
     -- {"/newpath", "/Users/yourhome/Library/Scripts/Modules", "/Users/yourhome/Library/Script Libraries", "/Library/Scripts/Modules", "/Library/Script Libraries", "/Network/Library/Scripts/Modules", "/Network/Library/Script Libraries"}
 end tell
 *)
-on prepend_path(a_path)
+on prepend_paths(paths)
+    -- paths can be text or text of list
 	if my _additional_paths is missing value then
-		set my _additional_paths to {a_path}
+		set my _additional_paths to (paths as list)
 	else
-		set my _additional_paths to (a_path as list) & my _additional_paths
+		set my _additional_paths to (paths as list) & my _additional_paths
 	end if
 	return me
-end prepend_path
+end prepend_paths
 
+on append_paths(paths)
+     -- paths can be text or text of list
+     if my _additional_paths is missing value then
+         set my _additional_paths to (paths as list)
+     else
+         set my _additional_paths to my _additional_paths & (paths as list)
+     end if
+     return me
+end prepend_paths
+
+ 
 (*!@group Others *)
 (*!@abstruct
 Obtain version number of a loaded library.

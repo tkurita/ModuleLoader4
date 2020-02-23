@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>ModuleLoaderHelp</string>
+	<key>CFBundleHelpBookName</key>
+	<string>net.script-factory.ModuleLoader.help</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -13,12 +17,8 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>${COPYRIGHT}</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>ModuleLoaderHelp</string>
-	<key>CFBundleHelpBookName</key>
-	<string>net.script-factory.ModuleLoader.help</string>
 </dict>
 </plist>
