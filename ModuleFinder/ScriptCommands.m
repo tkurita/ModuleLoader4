@@ -229,6 +229,7 @@ bail:
 @implementation LoadModuleCommand
 - (id)performDefaultImplementation
 {
+    NSLog(@"start LoadModuleCommand");
     [AppDelegate updateLastAccess];
     OSErr err = noErr;
     OSAID script_id = kOSANullScript;
@@ -265,6 +266,7 @@ bail:
         self.scriptErrorNumber = err;
         goto bail;
     }
+    errmsg = @"";
     err = extractDependencies(scriptingComponent, script_id, &dependencies, &errmsg);
     if (noErr != err) {
         self.scriptErrorNumber = err;
