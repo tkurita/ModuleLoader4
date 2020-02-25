@@ -279,7 +279,7 @@ on setup(a_script)
         -- do_log("OSA_LIBRARY_PATH : "&env_path)
         set predelim to AppleScript's text item delimiters
         set AppleScript's text item delimiters to {":"}
-        set env_path_list to every text item of evn_path
+        set env_path_list to every text item of env_path
         set AppleScript's text item delimiters to predelim
         append_paths(env_path_list)
         set my _is_local to true
