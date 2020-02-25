@@ -27,17 +27,22 @@ on module_version()
 	return my _version
 end module_version
 
+on has_module_loaded()
+    return my _has_module_loaded
+end
+
 on make_with_loadinfo(loadinfo)
 	--using terms from application "ModuleFinder"
-		return make_with_vars(loadinfo's script, loadinfo's dependency info, loadinfo's version, false)
+		return make_with_vars(loadinfo's script, loadinfo's dependency info, loadinfo's version, loadinfo's has module loaded, false)
 	--end using terms from
 end make_with_loadinfo
 
-on make_with_vars(a_script, dependencies_list, a_version, setupped_flag)
+on make_with_vars(a_script, dependencies_list, a_version, has_module_loaded, setupped_flag)
 	script ModuleInfo
 		property _script : a_script
 		property _dependecies : dependencies_list
 		property _version : a_version
+        property _has_module_loaded : has_module_loaded
 		property _setupped : setupped_flag
 	end script
 end make_with_vars

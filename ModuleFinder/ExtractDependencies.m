@@ -159,6 +159,7 @@ OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
     loopbail:
         AEDisposeDesc(&hname);
         if (noErr != err) goto bail;
+        if (*result) goto bail;
     }
 bail:
     AEDisposeDesc(&handler_names);

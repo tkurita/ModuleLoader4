@@ -54,15 +54,6 @@ property _is_local : false
 property _additional_paths : {}
 property _collecting : false
 property _only_local : false
-
-on has_module_loaded_by(a_script)
-    try
-        -- without coercing type value into text,
-        -- always false.
-        return a_script's module_loaded_by's class as text is "handler"
-    end try
-    return false
-end had_module_loaded_by
  
 on setup_script(a_moduleinfo)
 	set a_script to a_moduleinfo's module_script()
@@ -70,27 +61,9 @@ on setup_script(a_moduleinfo)
 	a_moduleinfo's set_setupped(true)
 	resolve_dependencies(a_moduleinfo, false)
     --log "after resolve_dependencies in setup_script"
-    if has_module_loaded_by(a_script) then
+    if a_moduleinfo's has_module_loaded() then
         set a_script to a_script's module_loaded_by(me)
         a_moduleinfo's set_module_script(a_script)
-    (*
-    -- don't support old module loaded event
-    -- to avoid error "内部の表があふれました。" number -2707
-    else
-        try -- to keep compatibility with ModuleLoader.osax
-            --log "before module loaded : " & (name of a_script)
-            --using terms from application "ModuleFinder"
-                set a_script to module loaded a_script by me
-            --end using terms from
-            a_moduleinfo's set_module_script(a_script)
-        on error msg number errno
-            -- 1800 : the module is not found
-            -- -1708 : handelr "module_loaded_by" is not implemented
-            if errno is not -1708 then
-                error msg number errno
-            end if
-        end try
-    *)
     end if
 	trim_required_import_items(a_script)
 	-- log "end setup_script"
