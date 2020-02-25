@@ -155,6 +155,58 @@ bail:
 }
 @end
 
+@implementation HasModuleLoadedCommand
+- (id)performDefaultImplementation
+{
+    [AppDelegate updateLastAccess];
+    OSErr err;
+    AEDesc script_data = {typeNull, NULL};
+    BOOL result = NO;
+    NSAppleEventDescriptor *reply = nil;
+    NSString *errmsg = nil;
+    
+    err = AEGetParamDesc([[self appleEvent] aeDesc], 'frso', typeWildCard, &script_data);
+    if (noErr != err ) {
+        self.scriptErrorString = @"Faild to AEGetParamDesc in extractDependenciesHandler";
+        self.scriptErrorNumber = err;
+        return nil;
+    }
+    
+    AEKeyword desired_class;
+    OSAID script_id = kOSANullScript;
+    ComponentInstance scriptingComponent = NULL;
+    
+    switch (script_data.descriptorType) {
+        case typeScript:
+            scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
+                                  componentInstance];
+            
+            err = OSACoerceFromDesc(scriptingComponent, &script_data, kOSAModeNull, &script_id);
+            if (err != noErr) goto bail;
+            break;
+        default:
+            err = 1804;
+    }
+    
+    if (err != noErr) {
+        self.scriptErrorString = @"Faild to AEGetParamDesc in HasModuleLoadedCommand";
+        self.scriptErrorNumber = err;
+        //showAEDesc(ev);
+        goto bail;
+    }
+    err = hasModuleLoadedHandler(scriptingComponent, script_id, &result, &errmsg);
+    if (noErr != err) {
+        self.scriptErrorNumber = err;
+        self.scriptErrorString = errmsg;
+        goto bail;
+    }
+bail:
+    OSADispose(scriptingComponent, script_id);
+    AEDisposeDesc(&script_data);
+    return [NSNumber numberWithBool:result];
+}
+@end
+
 @implementation ExtractDepedenciesCommand
 OSErr extractDependenciesASObjC(AEDesc *script_data_ptr, AEDesc *dependencies, NSString **errmsg);
 
@@ -245,6 +297,9 @@ bail:
     ModuleRef* module_ref = NULL;
     module_ref = findModuleWithEvent([[self appleEvent] aeDesc],
                                      self);
+    BOOL has_loaded = NO;
+    AEDesc has_loaded_desc = {typeNull, NULL};
+    
     if (!module_ref) goto bail;
     
     OSAError osa_err = noErr;
@@ -274,6 +329,17 @@ bail:
         goto bail;
     }
     
+    // should insert hasModuleLoaded
+    err = hasModuleLoadedHandler(scriptingComponent, script_id, &has_loaded, &errmsg);
+    if (noErr != err) {
+        self.scriptErrorNumber = err;
+        self.scriptErrorString = errmsg;
+        goto bail;
+    }
+    
+    DescType bool_type = (has_loaded? typeTrue:typeFalse);
+    AECreateDesc(bool_type, NULL, 0, &has_loaded_desc);
+    
     osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
     if (osa_err != noErr) {
         self.scriptErrorNumber = osa_err;
@@ -300,8 +366,8 @@ bail:
     }
     
     AEBuildError ae_err;
-    err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@}",
-                      &furl_desc, &script_desc, &dependencies, &version_desc);
+    err = AEBuildDesc(&result_desc, &ae_err, "{file:@, scpt:@, DpIf:@, vers:@, hsML:@}",
+                      &furl_desc, &script_desc, &dependencies, &version_desc, &has_loaded_desc);
     if (noErr != err) {
         self.scriptErrorNumber = err;
         goto bail;
@@ -313,6 +379,7 @@ bail:
     AEDisposeDesc(&version_desc);
     AEDisposeDesc(&furl_desc);
     AEDisposeDesc(&dependencies);
+    AEDisposeDesc(&has_loaded_desc);
     ModuleRefFree(module_ref);
     OSADispose(scriptingComponent, script_id);
     return result;

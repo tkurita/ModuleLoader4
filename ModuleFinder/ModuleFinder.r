@@ -178,6 +178,23 @@ resource 'aete' (0, "ModuleFinder Terminology") {
 				singleItem, notEnumerated, Reserved13
 			},
 
+			"check module loaded",
+			"check wheter module_loaded_by handler exists or not",
+			'Molo', 'ckML',
+			'bool',
+			"",
+			replyRequired, singleItem, notEnumerated, Reserved13,
+			'****',
+			"",
+			directParamOptional,
+			singleItem, notEnumerated, Reserved13,
+			{
+				"for", 'frso', '****',
+				"script object",
+				required,
+				singleItem, notEnumerated, Reserved13
+			},
+
 			"module loaded",
 			"Called when a module is loaded by a loader object. It's a place to customize modules.",
 			'Molo', 'wlLd',
@@ -241,6 +258,20 @@ resource 'aete' (0, "ModuleFinder Terminology") {
 
 				"only local", 'oNLo', 'bool',
 				"",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12
+			},
+			{
+			},
+
+			"has module loaded", 'hsML',
+			"Module dependency information",
+			{
+				"name", 'pnam', 'TEXT',
+				"A property name which a module is loaded.",
+				reserved, singleItem, notEnumerated, readWrite, Reserved12,
+
+				"module specifier", 'MoSp', 'MoSp',
+				"A module specifier",
 				reserved, singleItem, notEnumerated, readWrite, Reserved12
 			},
 			{

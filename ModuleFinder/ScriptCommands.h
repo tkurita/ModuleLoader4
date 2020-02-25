@@ -12,6 +12,9 @@
 @interface ModulePathsCommand : NSScriptCommand
 @end
 
+@interface HasModuleLoadedCommand : NSScriptCommand
+@end
+
 @interface ExtractDepedenciesCommand : NSScriptCommand
 @end
 

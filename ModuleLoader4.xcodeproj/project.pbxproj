@@ -655,7 +655,7 @@
 				INFOPLIST_FILE = ModuleFinder/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MARKETING_VERSION = 4.0.1;
-				OTHER_CFLAGS = "-DuseDeprected=0";
+				OTHER_CFLAGS = "-DuseDeprected=1";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.script-factory.ModuleFinder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

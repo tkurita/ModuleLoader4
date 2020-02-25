@@ -123,6 +123,48 @@ bail:
     return err;
 }
 
+OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
+                             BOOL *result, NSString **errmsg)
+{
+    OSErr err;
+    AEDescList handler_names = {typeNull, NULL};
+    err = OSAGetHandlerNames(component, kOSAModeNull, scriptID, &handler_names);
+    if (err != noErr) {
+        *errmsg = @"Failed to OSAGetHandlerName in hasModuleLoadedHandler.";
+        goto bail;
+    }
+    
+    long count = 0;
+    err = AECountItems(&handler_names, &count);
+    if (err != noErr) goto bail;
+    
+    AEKeyword a_keyword;
+    for (long n = 1; n <= count; n++) {
+        AEDesc hname = {typeNull, NULL};
+        err = AEGetNthDesc(&handler_names, n, typeWildCard, &a_keyword, &hname);
+        if (err != noErr) goto loopbail;
+        
+        #if useLog
+        NSLog(@"%@", [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&hname]);
+        #endif
+        switch (hname.descriptorType) {
+            case typeUnicodeText:
+                if ([[[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&hname] stringValue] isEqualToString:@"module_loaded_by"]) {
+                    *result = YES;
+                }
+                break;
+            case 'evnt':
+                break;
+        }
+    loopbail:
+        AEDisposeDesc(&hname);
+        if (noErr != err) goto bail;
+    }
+bail:
+    AEDisposeDesc(&handler_names);
+    return err;
+}
+
 OSErr extractDependencies(ComponentInstance component, OSAID scriptID,
                           AEDescList *dependencies, NSString **errmsg)
 {
