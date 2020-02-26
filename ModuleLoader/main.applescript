@@ -317,10 +317,6 @@ on setup(a_script)
 		end if
 		an_accessor's set_value(a_script, a_moduleinfo's module_script())
 	end repeat
-	
-    if has_module_loaded_by(a_script) then
-        a_script's module_loaded_by(me)
-    end if
 
 	--log "will set __module_dependencies__"
 	set __module_dependencies__ to dependencies
