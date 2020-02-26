@@ -36,15 +36,15 @@
 		2CD79D3222C454710083C403 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*main.applescript";
+			filePatterns = "*/main.applescript";
 			fileType = pattern.proxy;
 			inputFiles = (
 			);
 			isEditable = 1;
 			outputFiles = (
-				"$(DERIVED_FILE_DIR)/main.scpt",
+				$TARGET_BUILD_DIR/$SCRIPTS_FOLDER_PATH/$INPUT_FILE_BASE.scpt,
 			);
-			script = "#pwd\n#printenv\n\ncd \"$TARGET_BUILD_DIR\"\nmkdir -p \"$SCRIPTS_FOLDER_PATH\"\ncd \"$INPUT_FILE_DIR\"\nosacompile -d -i \"${BUILT_PRODUCTS_DIR}/ModuleFinder.app\" -o \"$TARGET_BUILD_DIR/$SCRIPTS_FOLDER_PATH/main.scpt\" \"$INPUT_FILE_BASE.applescript\"\n";
+			script = "#pwd\n#printenv\n\ncd \"$TARGET_BUILD_DIR\"\nmkdir -p \"$SCRIPTS_FOLDER_PATH\"\ncd \"$INPUT_FILE_DIR\"\nosacompile -d -i \"${BUILT_PRODUCTS_DIR}/ModuleFinder.app\" -o \"$TARGET_BUILD_DIR/$SCRIPTS_FOLDER_PATH/$INPUT_FILE_BASE.scpt\" \"$INPUT_FILE_NAME\"\n";
 		};
 /* End PBXBuildRule section */
 
