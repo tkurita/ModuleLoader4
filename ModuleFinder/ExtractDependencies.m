@@ -123,6 +123,14 @@ bail:
     return err;
 }
 
+
+NSAppleEventDescriptor *NSAppleEventDescriptorWithCopy(AEDesc *desc_ptr)
+{
+    AEDesc new_desc;
+    AEDuplicateDesc(desc_ptr, &new_desc);
+    return [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&new_desc];
+}
+
 OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
                              BOOL *result, NSString **errmsg)
 {
@@ -148,24 +156,26 @@ OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
         if (err != noErr) goto loopbail;
         
         #if useLog
-        NSLog(@"%@", [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&hname]);
+        NSLog(@"%@", NSAppleEventDescriptorWithCopy(&hname));
         #endif
         switch (hname.descriptorType) {
             case typeUnicodeText:
                 if ([[[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&hname] stringValue] isEqualToString:@"module_loaded_by"]) {
                     *result = YES;
+                    goto bail;
                 }
+                goto loopbail; // avoid AEDisposeDesc(&hname)
                 break;
             case 'evnt':
                 break;
         }
-    loopbail:
         AEDisposeDesc(&hname);
+    loopbail:
         if (noErr != err) goto bail;
         if (*result) goto bail;
     }
 bail:
-    //AEDisposeDesc(&handler_names); // Failed cause error when called from .applescript in Xcode.
+    AEDisposeDesc(&handler_names); // cause error when called from .applescript in Xcode.
 #if useLog
     NSLog(@"end hasModuleLoadedHandler");
 #endif
@@ -256,7 +266,9 @@ OSErr extractDependencies(ComponentInstance component, OSAID scriptID,
         if (noErr != err) {
             if (-1753 == err) {
                 // class "CocoaClass" causes error in some cases.
-                NSAppleEventDescriptor *pname_desc = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&a_pname];
+                AEDesc new_desc;
+                AEDuplicateDesc(&a_pname, &new_desc);
+                NSAppleEventDescriptor *pname_desc = [[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&new_desc];
                 NSLog(@"Failed to OSAGetProperty for %@ in extractDependencies with error %d", [pname_desc stringValue], err);
                 err = noErr;
             } else {
