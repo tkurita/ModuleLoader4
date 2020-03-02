@@ -281,7 +281,9 @@ bail:
 @implementation LoadModuleCommand
 - (id)performDefaultImplementation
 {
+#if useLog
     NSLog(@"start LoadModuleCommand");
+#endif
     [AppDelegate updateLastAccess];
     OSErr err = noErr;
     OSAID script_id = kOSANullScript;

@@ -221,12 +221,18 @@ on resolve_dependencies(a_moduleinfo)
 end resolve_dependencies
 
 on resolve_module_finder()
-    -- log "start resolve_module_finder"
+    -- do_log("start resolve_module_finder")
 	if my _module_finder is missing value then
 		set my _module_finder to (path to resource "ModuleFinder.app") as text
         ModuleCache's set_module_finder(my _module_finder)
+        try
+            tell application (my _module_finder) to launch
+        on error msg number errno
+            do_log("Failed to launch ModuleFinder")
+            error msg& space &"Failed to launch ModuleFinder" number errno
+        end try
 	end if
-    -- log "end resolve_module_finder"
+    -- do_log("end resolve_module_finder")
 end resolve_module_finder
 
 (*!@group Loading Libraries *)
@@ -236,6 +242,9 @@ end resolve_module_finder
 @result missing value
 *)
 on setup(a_script)
+    -- set_logging(true, "New ModuleLoader")
+    -- do_log("start setup")
+
 	global __module_dependencies__
     resolve_module_finder()
     set my _module_cache to make ModuleCache
@@ -246,7 +255,6 @@ on setup(a_script)
     end if
  	
     -- OSA_LIBRARY_PATH
-    -- set_logging(true, "New ModuleLoader")
     set env_path to system attribute("OSA_LIBRARY_PATH")
     if env_path is not "" then
         -- do_log("OSA_LIBRARY_PATH : "&env_path)
@@ -293,7 +301,7 @@ on setup(a_script)
 		end try
 	end if
 	
-    
+    --do_log("before resolve dependencies in setup")
 	try
 		set dependencies to __module_dependencies__
 		--log "found __module_dependencies__"

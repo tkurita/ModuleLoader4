@@ -332,7 +332,7 @@ OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths,
                                 Boolean searchSubFolders, ModuleRef** moduleRef);
 #if useLog
 	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
-	CFShow(additionalPaths);
+	NSLog(@"%@", additionalPaths);
 #endif	
 	if (ModuleConditionHasSubpath(module_condition)) {
 		findModuleAtFolder = findModuleWithSubPath;

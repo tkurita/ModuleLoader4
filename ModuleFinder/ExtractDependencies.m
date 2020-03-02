@@ -126,6 +126,9 @@ bail:
 OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
                              BOOL *result, NSString **errmsg)
 {
+    #if useLog
+        NSLog(@"start hasModuleLoadedHandler");
+    #endif
     OSErr err;
     AEDescList handler_names = {typeNull, NULL};
     err = OSAGetHandlerNames(component, kOSAModeNull, scriptID, &handler_names);
@@ -162,7 +165,10 @@ OSErr hasModuleLoadedHandler(ComponentInstance component, OSAID scriptID,
         if (*result) goto bail;
     }
 bail:
-    AEDisposeDesc(&handler_names);
+    //AEDisposeDesc(&handler_names); // Failed cause error when called from .applescript in Xcode.
+#if useLog
+    NSLog(@"end hasModuleLoadedHandler");
+#endif
     return err;
 }
 
