@@ -162,7 +162,6 @@ bail:
     OSErr err;
     AEDesc script_data = {typeNull, NULL};
     BOOL result = NO;
-    NSAppleEventDescriptor *reply = nil;
     NSString *errmsg = nil;
     
     err = AEGetParamDesc([[self appleEvent] aeDesc], 'frso', typeWildCard, &script_data);
@@ -172,7 +171,6 @@ bail:
         return nil;
     }
     
-    AEKeyword desired_class;
     OSAID script_id = kOSANullScript;
     ComponentInstance scriptingComponent = NULL;
     

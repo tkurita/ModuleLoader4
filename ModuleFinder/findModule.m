@@ -50,9 +50,10 @@ ModuleRef *findModuleWithEvent(const AppleEvent *ev, NSScriptCommand *command)
     Boolean from_use = false;
     getBoolValue(ev, kFromUseParam,  &from_use);
     
+    // Dropped support HFS path
     module_condition = ModuleConditionCreate(module_name,
                                              required_version,
-                                             !from_use, &errmsg);
+                                             false, &errmsg);
     if (!module_condition) {
         command.scriptErrorString = CFBridgingRelease(errmsg);
         command.scriptErrorNumber = kFailedToParseVersionCondition;
@@ -332,7 +333,7 @@ OSErr findModule(ModuleCondition *module_condition, NSArray *additionalPaths,
                                 Boolean searchSubFolders, ModuleRef** moduleRef);
 #if useLog
 	fprintf(stderr, "ignoreDefaultPaths : %d\n", ignoreDefaultPaths);
-	NSLog(@"%@", additionalPaths);
+	if (additionalPaths.count) NSLog(@"%@", additionalPaths);
 #endif	
 	if (ModuleConditionHasSubpath(module_condition)) {
 		findModuleAtFolder = findModuleWithSubPath;

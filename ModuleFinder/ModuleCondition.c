@@ -44,7 +44,7 @@ ModuleCondition *ModuleConditionCreate(CFStringRef module_name, CFStringRef requ
 	CFMutableArrayRef subpath = NULL;
 	ModuleCondition *module_condition = NULL;
 	
-    if (hfs_style) {
+    if (hfs_style) { //should be removed
         CFRange colon_range  = CFStringFind(module_name, CFSTR(":"), 0);
         if (colon_range.location != kCFNotFound) {
             CFArrayRef subpath_tmp = CFStringCreateArrayBySeparatingStrings(NULL, module_name, CFSTR(":"));
@@ -125,8 +125,8 @@ void ModuleConditionFree(ModuleCondition *module_condition)
 
 Boolean ModuleConditionVersionIsSatisfied(ModuleCondition *module_condition, ModuleRef *module_ref)
 {
-	CFStringRef version = ModuleRefGetVersion(module_ref);
 	if (!module_condition->required_version) return true;
+    CFStringRef version = ModuleRefGetVersion(module_ref);
 	if (!version) return false;
 	return VersionConditionSetIsSatisfied(module_condition->required_version, version);
 }
