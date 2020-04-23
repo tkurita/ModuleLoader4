@@ -291,25 +291,33 @@ bail:
     AEDesc script_desc = {typeNull, NULL};
     AEDesc version_desc = {typeNull, NULL};
     AEDesc result_desc = {typeNull, NULL};
+    AEDesc has_loaded_desc = {typeNull, NULL};
     NSAppleEventDescriptor *result = nil;
     NSString *errmsg = nil;
-    
-    ModuleRef* module_ref = NULL;
-    module_ref = findModuleWithEvent([[self appleEvent] aeDesc],
-                                     self);
     BOOL has_loaded = NO;
-    AEDesc has_loaded_desc = {typeNull, NULL};
-    
-    if (!module_ref) goto bail;
-    
     OSAError osa_err = noErr;
     
+    ModuleRef* module_ref = NULL;
+    module_ref = findModuleWithEvent([[self appleEvent] aeDesc], self);
+    if (!module_ref) goto bail;
     
     scriptingComponent = [[[OSALanguage defaultLanguage] sharedLanguageInstance]
                           componentInstance];
     
+    osa_err = OSAGetScriptDataFromURL(module_ref->url, NULL, 0, &script_desc);
+    if (osa_err != noErr) {
+        self.scriptErrorNumber = osa_err;
+        self.scriptErrorString = @"Fail to get a script data.";
+        goto bail;
+    }
+    osa_err = OSALoadScriptData(scriptingComponent, &script_desc, module_ref->url,
+                                kOSAModeCompileIntoContext, &script_id);
+    if (osa_err != noErr) {
+        self.scriptErrorNumber = osa_err;
+        self.scriptErrorString = @"Fail to get a load data.";
+        goto bail;
+    }
     
-    osa_err = OSALoadFile(scriptingComponent, &(module_ref->fsref), NULL, kOSAModeCompileIntoContext, &script_id);
     if (osa_err != noErr) {
         self.scriptErrorNumber = osa_err;
         self.scriptErrorString = @"Fail to load a script.";
@@ -340,11 +348,14 @@ bail:
     DescType bool_type = (has_loaded? typeTrue:typeFalse);
     AECreateDesc(bool_type, NULL, 0, &has_loaded_desc);
     
-    osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
-    if (osa_err != noErr) {
-        self.scriptErrorNumber = osa_err;
-        self.scriptErrorString = @"Fail to OSACoerceToDesc.";
-        goto bail;
+    if (! module_ref->is_compiled) {
+        AEDisposeDesc(&script_desc);
+        osa_err = OSACoerceToDesc(scriptingComponent, script_id, typeWildCard,kOSAModeNull, &script_desc);
+        if (osa_err != noErr) {
+            self.scriptErrorNumber = osa_err;
+            self.scriptErrorString = @"Fail to OSACoerceToDesc.";
+            goto bail;
+        }
     }
     
     if (module_ref->version) {

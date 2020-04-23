@@ -1,11 +1,11 @@
 #include "TXFile.h"
 
 typedef struct {
-	FSRef fsref;
 	CFStringRef name;
 	CFStringRef version;
 	Boolean is_package;
     CFURLRef url;
+    Boolean is_compiled;
 } ModuleRef;
 
 CFStringRef ModuleRefGetVersion(ModuleRef *module_ref);

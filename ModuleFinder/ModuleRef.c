@@ -10,7 +10,6 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 		return module_ref->version;
 	}
 	if (! module_ref->is_package) return NULL;
-		
 	CFDictionaryRef dict = CFBundleCopyInfoDictionaryForURL(module_ref->url);
 	CFStringRef ver = CFDictionaryGetValue(dict, CFSTR("CFBundleShortVersionString"));
 	if (!ver) ver = CFDictionaryGetValue(dict, CFSTR("CFBundleVersion"));
@@ -19,8 +18,7 @@ CFStringRef ModuleRefGetVersion(ModuleRef *module_ref)
 	return ver;
 }
 
-
-Boolean isScript(TXFileRef txfile)
+Boolean isScript(TXFileRef txfile, Boolean *is_compiled)
 {
 	Boolean result = false;
 	CFStringRef uti = NULL;
@@ -39,16 +37,19 @@ Boolean isScript(TXFileRef txfile)
     }
     if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script-bundle"))) ) {
         result = true;
+        *is_compiled = true;
         goto bail;
     }
     
     if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.script"))) ) {
         result = true;
+        *is_compiled = true;
         goto bail;
     }
     
     if ( (result = UTTypeConformsTo(uti, CFSTR("com.apple.applescript.text"))) ) {
         result = true;
+        *is_compiled = false;
         goto bail;
     }
     
@@ -60,6 +61,7 @@ Boolean isScript(TXFileRef txfile)
         if ((kCFCompareEqualTo ==  CFStringCompare(creator, CFSTR("dplt"), 0))
                 || (kCFCompareEqualTo ==  CFStringCompare(creator, CFSTR("aplt"), 0))) {
             result = true;
+            *is_compiled = true;
         }
         CFRelease(bundle);
         goto bail;
@@ -69,6 +71,7 @@ Boolean isScript(TXFileRef txfile)
         CFStringRef ext = CFURLCopyPathExtension(TXFileGetURL(txfile));
         if (kCFCompareEqualTo ==  CFStringCompare(ext, CFSTR("scptd"), 0)) {
             result = true;
+            *is_compiled = true;
         }
         CFRelease(ext);
     }
@@ -82,14 +85,13 @@ bail:
 ModuleRef *ModuleRefCreate(TXFileRef txfile)
 {
 	ModuleRef *module_ref = NULL;
-	if (!isScript(txfile)) return NULL;
+    Boolean is_compiled = false;
+	if (!isScript(txfile, &is_compiled)) return NULL;
 	module_ref = malloc(sizeof(ModuleRef));
     module_ref->url = TXFileCopyURL(txfile);
-    if (! CFURLGetFSRef(module_ref->url, &(module_ref->fsref))) {
-        fprintf(stderr, "Faild to get FSRef from CFURL\n");
-    }
 	module_ref->version = NULL;
 	module_ref->name = NULL;
+    module_ref->is_compiled = is_compiled;
     CFErrorRef error = NULL;
     module_ref->is_package = TXFileIsPackage(txfile, &error);
     if (error) CFShow(error);
@@ -119,7 +121,6 @@ ModuleRef *ModuleRefCreateWithCondition(TXFileRef txfile, ModuleCondition *modul
 	CFShow(array);
 #endif
 	if (!array) return NULL;
-	if (!isScript(txfile)) return NULL;
     module_ref = ModuleRefCreate(txfile);
     if (! module_ref) goto bail;
     
