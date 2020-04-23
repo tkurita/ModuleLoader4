@@ -50,10 +50,9 @@ ModuleRef *findModuleWithEvent(const AppleEvent *ev, NSScriptCommand *command)
     Boolean from_use = false;
     getBoolValue(ev, kFromUseParam,  &from_use);
     
-    // Dropped support HFS path
     module_condition = ModuleConditionCreate(module_name,
                                              required_version,
-                                             false, &errmsg);
+                                             &errmsg);
     if (!module_condition) {
         command.scriptErrorString = CFBridgingRelease(errmsg);
         command.scriptErrorNumber = kFailedToParseVersionCondition;
